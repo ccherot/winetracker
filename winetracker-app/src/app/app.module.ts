@@ -12,13 +12,15 @@ import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
 import { LoginComponent } from './main/login/login.component';
 import { DashboardComponent } from './main/dashboard/dashboard.component';
+import { CellarViewComponent } from './main/cellar-view/cellar-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    CellarViewComponent
   ],
   imports: [
     BrowserModule,
