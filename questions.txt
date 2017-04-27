@@ -1,0 +1,9 @@
+To delete an embedded document, do we use an app.delete toure or an app.patch?
+
+This probably not a great app for MongoDB since there seems to be a number of different relationships between wines and cellars
+
+How to handle items that only differ in vintage?  They still need a different wine docuemnt!
+
+Since a cellar has to contain the quantity of a given wine, the wine needs to be wrapped in another document which has
+additional properties like quantity, price, a different set of tasting notes apart from the public ones associated 
+with the wine. 

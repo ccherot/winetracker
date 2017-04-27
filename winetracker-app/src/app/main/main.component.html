@@ -1,0 +1,6 @@
+<p>
+  main works!
+</p>
+{{ currentUser | json}}
+<app-login *ngIf="!isLoggedIn" (loginEvent)="onLoggedIn($event)" [currentUser]="currentUser"></app-login>
+<app-dashboard *ngIf="isLoggedIn" [currentUser]="currentUser" (logoutClickEvent)="onLogoutClickEvent($event)"></app-dashboard>

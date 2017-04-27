@@ -1,0 +1,86 @@
+<p>
+  login-reg-view works!
+</p>
+<form id="loginForm" class="loginFormClass" (submit)="onClickLogin()" name="loginForm">
+<label id="loginEmailabel"name="loginEmailLabel" class="loginEmailLabelClass">Email:</label>
+<input
+  type="text"
+  name="loginUserNameInput"
+  class="userEmailInputClass"
+  id="loginUsernameInput"
+  [(ngModel)]="userEmail">
+  <label 
+  id="userPasswirdLabel" 
+  class="userPasswordLabelClass">Password:</label>
+<input
+  id="loginPasswordInput"
+  name="loginPasswordInput"
+  type="text"
+  class="userPasswordInputClass"
+  [(ngModel)]="userPassword">
+<input 
+  type="submit"
+  id="loginSubmit"
+  name="Login"
+  value="Login"
+  class="loginButtonClass">
+</form>
+<br>
+<br>
+<form 
+  (submit)="onClickRegister()"
+  id="registrationForm"
+  class="registrationFromClass">
+  <label id="firstNameLabel" class="firstNameLabelClass">First Name:</label>
+  <input 
+    type="text" 
+    name="regFirstName"
+    id="regFirstName" 
+    class="regFirstNameClass" 
+    [(ngModel)]="newUser.firstName">
+  <label id="lastNameLabel" class="lastNameLabelClass">Last Name:</label>
+  <input 
+    type="text" 
+    id="regLastName" 
+    name="regLastName"
+    class="regLastNameClass" 
+    [(ngModel)]="newUser.lastName">
+  <label>Email:</label>
+  <input 
+    type="text" 
+    id="regEmail" 
+    name="regEmail"
+    class="regEmailClass" 
+    [(ngModel)]="newUser.email">
+  <label>Password:</label>
+  <input 
+    type="text" 
+    id="regPassword" 
+    name="regPassword"
+    class="regPasswordClass" 
+    [(ngModel)]="newUser.password">
+  <label>Password Confirm:</label>
+  <input 
+    type="text" 
+    id="regPasswordConfirm" 
+    name="regpasswordConfirm"
+    class="regPasswordConfirmClass" 
+    [(ngModel)]="newUser.passwordConfirm">
+  <label id="birthdayLabel" class="birthdayLabelClass">Birthday:</label><br>
+  <input 
+    type="date" 
+    id="regBirthday" 
+    name="regBirthday"
+    class="regBirthdayNameClass" 
+    [(ngModel)]="newUser.birthday">
+  <input 
+    type="submit"
+    id="regSumbit"
+    name="regSubmit"
+    class="regSubmitClass"
+    name="Register"
+    value="RegisterVal">
+
+
+  
+
