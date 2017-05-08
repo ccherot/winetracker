@@ -1,9 +1,34 @@
 <p>
   dashboard works!
 </p>
+  <br>
+  cellars: {{_loginService.currentUser.cellars}}
 <button 
   (click)="onClickLogout()" 
   id="logoutButton"
   name="logoutButton"
-  class="logoutButtonClass">
+  class="dashboardButtonClass">
   Logout</button>
+<button 
+  (click)="onClickAddCellar()" 
+  id="addCellarButton"
+  name="addCellarButton"
+  class="dashBoardButtonClass">
+  Add Cellar
+</button>
+<button 
+  (click)="onClickEditProfile()" 
+  id="editProfileButton"
+  name="editProfileButton"
+  class="dashBoardButtonClass">
+  Edit Profile
+</button>
+<br>
+<label 
+  id="cellarListLabel"
+  class="cellarListLabelClass">
+  Available Cellars
+</label>
+<ul>
+  <!-- <li *ngFor="cellar in _loginService.currentUser.cellars">{{cellar.cellarName}}</li> -->
+</ul>

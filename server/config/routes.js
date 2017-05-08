@@ -103,7 +103,10 @@ module.exports = function(app){
         cellars.deleteCellar(req, res)
     })
 
-
+    //this route allows a user to update a cellar name
+    app.patch('/cellar', function (req, res){
+        cellars.updateCellar(req, res)
+    })
 
     //
     //CellarItem Routes

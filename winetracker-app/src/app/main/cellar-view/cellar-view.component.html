@@ -1,3 +1,12 @@
 <p>
   cellar-view works!
 </p>
+<div [ngSwitch]="cellarViewMode">
+  <app-cellar-new *ngSwitchCase="utils.kCELLAR_NEW_MODE"></app-cellar-new> <!-- -->
+  <app-cellar-edit *ngSwitchCase="utils.kCELLAR_EDIT_MODE"></app-cellar-edit>
+  <app-cellaritem-new *ngSwitchCase="utils.kCELLAR_ITEM_NEW_MODE"></app-cellaritem-new>
+  <app-cellaritem-edit *ngSwitchCase="utils.kCELLAR_ITEM_EDIT_MODE"></app-cellaritem-edit>
+  <app-profile-edit *ngSwitchCase="utils.kEDIT_PROFILE_MODE"></app-profile-edit>
+  <app-cellar-list *ngSwitchCase="utils.kCELLAR_LIST_MODE"></app-cellar-list>
+  <app-cellar-list *ngSwitchDefault></app-cellar-list>
+</div>

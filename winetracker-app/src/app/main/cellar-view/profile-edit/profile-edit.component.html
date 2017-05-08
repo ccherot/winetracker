@@ -1,0 +1,57 @@
+<p>
+  profile-edit works!
+</p>
+<form 
+  (submit)="onClickUpdate()"
+  id="editProfileForm"
+  class="editProfileFormClass">
+  <label id="firstNameLabel" class="firstNameLabelClass">First Name:</label>
+  <input 
+    type="text" 
+    name="editFirstName"
+    id="editFirstName" 
+    class="editFirstNameClass" 
+    [(ngModel)]="editUser.firstName">
+  <label id="lastNameLabel" class="lastNameLabelClass">Last Name:</label>
+  <input 
+    type="text" 
+    id="editLastName" 
+    name="editLastName"
+    class="editLastNameClass" 
+    [(ngModel)]="editUser.lastName">
+  <label>Email:</label>
+  <input 
+    type="text" 
+    id="editEmail" 
+    name="editEmail"
+    class="editEmailClass" 
+    [(ngModel)]="editUser.email">
+  <label>Password:</label>
+  <input 
+    type="text" 
+    id="editPassword" 
+    name="editPassword"
+    class="editPasswordClass" 
+    [(ngModel)]="editUser.password">
+  <label>Password Confirm:</label>
+  <input 
+    type="text" 
+    id="editPasswordConfirm" 
+    name="editPasswordConfirm"
+    class="editPasswordConfirmClass" 
+    [(ngModel)]="editUser.passwordConfirm">
+  <label id="birthdayLabel" class="birthdayLabelClass">Birthday:</label><br>
+  <input 
+    type="date" 
+    id="editBirthday" 
+    name="editBirthday"
+    class="editBirthdayNameClass" 
+    [(ngModel)]="editUser.birthday">
+  <input 
+    type="submit"
+    id="editSumbit"
+    name="editSubmit"
+    class="editSubmitClass"
+    name="Update"
+    value="UpdateVal">
+

@@ -1,6 +1,12 @@
 <p>
   main works!
 </p>
-{{ currentUser | json}}
-<app-login *ngIf="!isLoggedIn" (loginEvent)="onLoggedIn($event)" [currentUser]="currentUser"></app-login>
-<app-dashboard *ngIf="isLoggedIn" [currentUser]="currentUser" (logoutClickEvent)="onLogoutClickEvent($event)"></app-dashboard>
+{{ _loginService.currentUser | async | json }}
+<br>
+{{ _loginService.isLoggedIn | async }}
+
+<app-login *ngIf="!_loginService.isLoggedIn"></app-login> <!-- (loginEvent)="onLoggedIn($event)" -->
+<app-dashboard 
+  *ngIf="_loginService.isLoggedIn"  
+  (logoutClickEvent)="onLogoutClickEvent($event)"></app-dashboard>
+<app-cellar-view *ngIf="_loginService.isLoggedIn"></app-cellar-view>
