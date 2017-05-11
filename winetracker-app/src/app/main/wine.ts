@@ -1,7 +1,7 @@
 export class Wine {
 
     producer: string
-    vintage: number
+    vintage: string
     varietal: string
     domain: string
     cuvee: string

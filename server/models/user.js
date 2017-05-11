@@ -5,6 +5,9 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt')
 var Schema = mongoose.Schema
 
+
+//var Cellars = mongoose.SchemaType()
+
 //UserSchema must include:
 //  email
 //  firstName
@@ -75,7 +78,7 @@ var UserSchema = new mongoose.Schema ({
         type: Date, 
         required: true
     }, 
-    cellars: [{type: Schema.Types.ObjectId, ref: 'Cellar', required: false}]//cellar attached to this user 
+    cellars: [{type: Schema.Types.ObjectId, ref: 'Cellar', required: false}] //[Cellars]//cellar attached to this user //
 }, {timestamps: true})
 
 UserSchema.path('email').validate(function(value, done) {

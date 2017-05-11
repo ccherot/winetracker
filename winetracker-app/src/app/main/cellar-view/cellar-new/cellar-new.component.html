@@ -1,0 +1,28 @@
+<p>
+  cellar-new works!
+</p>
+<form 
+  (submit)="onClickCreateCellar()" 
+  id="newCellarItemForm"
+  name="newCellarItemForm"
+  class="newCellarItemFormClass"
+  #formData="ngForm">
+  <label 
+    id="cellarNameLabel"
+    class="cellarNewLabelClass">
+    Cellar Name:</label>
+  <input 
+    type="text"
+    id="inputCellarName" 
+    class="cellarInputClass" 
+    type="text" 
+    name="cellarName" 
+    [(ngModel)]="newCellar.cellarName">
+  <br>
+  <input
+    id="formCreateNewCellarButton"
+    class="formCreateNewCellarButtonClass"
+    type="submit"
+    name="submit"
+    value="Create Cellar">
+</form>

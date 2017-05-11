@@ -1,0 +1,200 @@
+<p>
+  cellaritem-new works!
+</p>
+targetCellar is:
+{{ targetCellar | json }}
+<br>
+newWine is:
+<br>
+{{ newWine | json }}
+<br>
+newCellaritem is: 
+{{ newCellaritem | json }}
+<br>
+<button 
+  id="doneButton"
+  class="doneButtonClass"
+  (click)="onClickDone()">Done</button>
+<button 
+  id="uploadButton"
+  class="uploadButtonClass"
+  (click)="onClickUpload()">Upload CSV File</button>
+ 
+<form 
+  (submit)="onClickAddWine(formData)" 
+  id="newCellarItemForm"
+  name="newCellarItemForm"
+  class="newCellarItemFormClass"
+  #formData="ngForm">
+  <label 
+    id="producerLabel"
+    class="cellarItemLabelClass">
+    Producer:</label>
+  <input 
+    type="text"
+    id="inputProducer" 
+    class="cellarItemInputClass" 
+    type="text" 
+    name="producer" 
+    [(ngModel)]="newWine.producer">
+    <br>
+  <label 
+    id="domainLabel"
+    class="cellarItemLabelClass">
+    Domain:</label>
+  <input 
+    type="text"
+    id="inputDomain"
+    class="cellarItemInputClass"
+    name="domain"
+    [(ngModel)]="newWine.domain">
+    <br>
+  <label 
+    id="varietalLabel"
+    class="cellarItemLabelClass">
+    Varietal(s):</label>
+  <input 
+    type="text"
+    id="inputVarietal"
+    class="cellarItemInputClass"
+    name="varietal"
+    [(ngModel)]="newWine.varietal">
+    <br>
+  <label 
+    id="cuveeLabel"
+    class="cellarItemLabelClass">
+    Cuvee:</label>
+  <input 
+    type="text"
+    id="inputCuvee"
+    class="cellarItemInputClass"
+    name="cuvee"
+    [(ngModel)]="newWine.cuvee">
+    <br>
+  <label 
+    id="vintageLabel"
+    class="cellarItemLabelClass">
+    Vintage:</label>
+  <input 
+    type="text"
+    id="inputVintage"
+    class="cellarItemInputClass"
+    name="vintage"
+    [(ngModel)]="newWine.vintage">
+    <br>
+  <label 
+    id="countryLabel"
+    class="cellarItemLabelClass">
+    Country:</label>
+  <input 
+    type="text"
+    id="inputCountry"
+    class="cellarItemInputClass"
+    name="country"
+    [(ngModel)]="newWine.country">
+    <br>
+  <label 
+    id="regionLabel"
+    class="cellarItemLabelClass">
+    Region:</label>
+  <input 
+    type="text"
+    id="inputRegion"
+    class="cellarItemInputClass"
+    name="region"
+    [(ngModel)]="newWine.region">
+    <br>
+  <label 
+    id="appellationLabel"
+    class="cellarItemLabelClass">
+    Appellation:</label>
+  <input 
+    type="text"
+    id="inputAppellation"
+    class="cellarItemInputClass"
+    name="appellation"
+    [(ngModel)]="newWine.appellation">
+    <br>
+  <label 
+    id="quantityLabel"
+    class="cellarItemLabelClass">
+    Quantity:</label>
+  <input 
+    type="text"
+    id="inputQuantity"
+    class="cellarItemInputClass"
+    name="quantity"
+    [(ngModel)]="newCellarItem.quantity">
+    <br>
+  <label 
+    id="priceLabel"
+    class="cellarItemLabelClass">
+    Price:</label>
+  <input 
+    type="text"
+    id="inputPrice"
+    class="cellarPriceInputClass"
+    name="quantity"
+    [(ngModel)]="newCellarItem.price">
+    <br>
+  <label 
+    id="purchaseLocationLabel"
+    class="cellarItemLabelClass">
+    Purchase Location:</label>
+  <input 
+    type="text"
+    id="inputPurchaseLocation"
+    class="cellarItemInputClass"
+    name="purchaseLocation"
+    [(ngModel)]="newCellarItem.purchaseLocation">
+    <br>
+  <label 
+    id="purchaseDateLabel"
+    class="cellarItemLabelClass">
+    Purchase Date:</label>
+  <input 
+    type="date"
+    id="inputPurchaseDate"
+    class="cellarItemInputClass"
+    name="purchaseDate"
+    [(ngModel)]="newCellarItem.purchaseDate">
+    <br>
+  <label 
+    id="purchaseLocation"
+    class="cellarItemLabelClass">
+    Purchase Location:</label>
+  <input 
+    type="text"
+    id="inputPurchaseLocation"
+    class="cellarItemInputClass"
+    name="purchaseLocation"
+    [(ngModel)]="newCellarItem.purchaseLocation">
+    <br>
+  <label 
+    id="storageLocationLabel"
+    class="cellarItemLabelClass">
+    Storage Location:</label>
+  <input 
+    type="text"
+    id="inputStorageLocation"
+    class="cellarItemInputClass"
+    name="storageLocation"
+    [(ngModel)]="newCellarItem.storageLocationId">
+    <br>
+  <select 
+    name="cellarSelect" 
+    id="cellarSelect" 
+    class="cellarSelectClass"
+    [(ngModel)]="targetCellar">
+    <option  
+      *ngFor="let cellar of cellars"
+      [ngValue]="cellar">{{ cellar.cellarName }}
+    </option> 
+  </select>
+  <input
+    id="formCreateButton"
+    class="formCreateButtonClass"
+    type="submit"
+    name="submit"
+    value="Add Wine">
+</form>

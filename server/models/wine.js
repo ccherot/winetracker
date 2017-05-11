@@ -4,8 +4,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema
 
 var WineSchema = new mongoose.Schema({
- producer: {type: String, required: true, minlength: 4},
- vintage: { type: Number, required: true }, //how to deal with N.V.?
+ producer: {type: String, required: true},
+ vintage: { type: String, required: true }, //how to deal with N.V.?
  varietal: {type: String, required: false}, //could be multiple comma separated. Array?
  domain: { type: String, required: false}, 
  cuvee: { type: String, required: false},

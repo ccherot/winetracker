@@ -18,7 +18,11 @@ module.exports = {
             }
             else {
                 console.log("controller/users.js: create > user successfully created")
-                //TODO: DOES THIS USER NOW HAVE THE _ID PROPERTY?
+                
+                //strip the password and passwordconfirm off of the object returned
+                delete user.password;
+                delete user.passwordConfirm
+                
                 res.json(user)
                 
             }
@@ -28,10 +32,13 @@ module.exports = {
 
     login: function (req, res) {
         console.log("controllers: users.js > login called > req.body is ", req.body)
-        User.findOne({email: req.body.email}, function (err, user){
+        //find the user and get their cellars as well...but not the CellarItems within the cellars!
+        User.findOne({email: req.body.email}).populate('cellars').exec( function (err, user){
             if (err){
                 console.log("login: error retrieiving data for user: " + req.body.email)
-                //error: "error retrieiving data for user: " + req.body.email
+                //TODO: CREATE GENERIC LOGIN ERROR SO CLIENT DOES NOT KNOW IF
+                //THE PASSWORD OR EMAIL IS INCORRECT.  THEY SHOULD NOT KNOW WHICH FOR 
+                //SECURITY PURPOSES
                 res.json(err)
             }
             else{
@@ -51,21 +58,27 @@ module.exports = {
                 {
                     bcrypt.compare(req.body.password, user.password, function (err, result){
                         if (err) { 
-                            console.log("ERROR: controllers: users.js > ERROR: passwords do not match")
+                            console.log("controllers: users.js: ERROR: controllers: users.js > ERROR: passwords do not match")
                             res.json(err) 
                         }
                         else {
-                            console.log("SUCCESS: " + user.email + " has successfully loged in" )
+                            console.log("controllers: users.js: login: SUCCESS: " + user.email + " has successfully loged in" )
                             //strip off the password before sending the user object back
-                            user.password = user.passwordConfirm = null
+                            delete user.password;
+                            delete user.passwordConfirm
+                            console.log("controllers: users.js: login: SUCCESS: user is now ", user)
                             res.json(user);    
                         }
                     })
+                }
+                else {
+                    res.json(false)
                 }
             }
         })
     }, 
 
+    //TODO:
     //this should return a list of user profiles but only
     //the public facing profile information 
     getUsers: function (req, res) {
@@ -81,7 +94,9 @@ module.exports = {
                 //TODO: COLLECT THE PUBLIC PROFILE PARTS OF THE USERS ONLY.
                 //CREATE A COLLECTION AND SEND BACK. THIS IS PROBABLUY IMPRACTICAL
                 //AND YOU MAY WANT TO IMPLEMENT A USER SEARCH FEATURE INSTEAD
-                res.json(users)
+                
+                //removing the response for now 
+                //res.json(users)
             }
         })
     },
@@ -104,14 +119,21 @@ module.exports = {
 
     updateUser: function(req,res){
         console.log("controllers/users.js > update > req.body is ", req.body);
-        User.update({_id: req.body._id}, req.body, function(err){
+        //find and update the user and return the updated user doc with 
+        //the cellar lsit populated  
+        User.findOneAndUpdate({_id: req.body._id}, req.body, {new: true}).populate('cellars').exec( function(err, user){
+        //User.update({_id: req.body._id}, req.body, function(err, user){
             if (err){
                 console.log('ERROR: controllers/users.js > update > there was an error updating user: ' + req.body._id)
                 res.json(err)
             }
             else{
-                console.log('controllers/users.js > update > successfully updated user: ' + req.body._id)
-                res.json(true)
+                //always remove the password fields before returning the 
+                //user object
+                delete user.password
+                delete user.passwordConfirm
+                console.log('controllers/users.js > update > successfully updated user: ', user)
+                res.json(user)
             }
         })    
     },

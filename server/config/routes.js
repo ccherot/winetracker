@@ -8,7 +8,7 @@ var path = require('path')
 var wines = require('../controllers/wines.js')
 var users = require("../controllers/users.js")
 var cellars = require("../controllers/cellars.js")
-var cellaritems = require("../controllers/cellarItems.js")
+var cellarItems = require("../controllers/cellarItems.js")
 
 // this adds route listeners to users and wines 
 module.exports = function(app){
@@ -35,7 +35,7 @@ module.exports = function(app){
 
 
     //this will delete a user
-    app.delete('/users', function(req, res) {
+    app.delete('/users/:id', function(req, res) {
         users.deleteUser(req, res);
     });
 
@@ -69,7 +69,7 @@ module.exports = function(app){
 
     //this will delete a wine.  this should 
     //only be done by an administrator
-    app.delete('/wines', function(req, res) {
+    app.delete('/wines/:id', function(req, res) {
         wines.deleteWine(req, res);
     });
 
@@ -92,18 +92,21 @@ module.exports = function(app){
     });
 
         
-    //this just gets the wines in a specific user's cellar
-    app.get('/cellar', function (req, res){
+    //this gets all the wines in a specific user's cellar
+    app.get('/cellar/:id', function (req, res){
         cellars.getCellar(req, res) 
     })
 
     //this route deletes a cellar from a user's profile.
     //probably not going to be used much...I hope
-    app.delete('/cellar', function (req, res){
+    app.delete('/cellar/:id', function (req, res){
         cellars.deleteCellar(req, res)
     })
 
-
+    //this route allows a user to update a cellar name
+    app.patch('/cellar', function (req, res){
+        cellars.updateCellar(req, res)
+    })
 
     //
     //CellarItem Routes
@@ -115,12 +118,17 @@ module.exports = function(app){
 
     //this route adds a new cellar item to the cellar
     app.post('/cellaritem', function (req, res){
-        cellarItems.addToCellar()
+        cellarItems.addToCellar(req, res)
     })
 
 
-    //this route deletes a specic quanity of a certain wine from a user's cellar
-    app.delete('/cellaritem', function (req, res){
+    //this route deletes a CellarItem.  This will likely not get used
+    //unless there is something very wring wit the CellarItem or maybe if
+    //it is a duplicate.  Most of the time a CellarItems quantity will simply
+    //be adjusted or the info will be edited in some way.  CellarItems with a 
+    //quantity of 0 will be moved to a different list of 'consumed' wines 
+    //perhaps.  
+    app.delete('/cellaritem/:id', function (req, res){
         cellarItems.deleteFromCellar(req, res)
     })
 
