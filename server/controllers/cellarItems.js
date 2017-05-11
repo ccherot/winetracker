@@ -41,31 +41,43 @@ module.exports = {
     addToCellar: function (req, res) {
         //this creates a new CellarItem, saves it, and then and appends the id to the list 
         //of CellarItems in the cellar 
-        console.log("addWines addding CellarItem: ",  req.body);
+        //console.log("controllers: cellarItems.js > addToCellar > req is ",  req);
+        console.log("controllers: cellarItems.js > addToCellar > req.body is ",  req.body);
         
         Cellar.findOne({_id: req.body.cellarId}, function(err, cellar) {
             // if there is an error console.log that something went wrong!
             if(err) {
-                console.log('something went while retrieving cell information for ', req.params.cellarId);
+                console.log('something went while retrieving cell information for ', req.body.cellarId);
             } 
-            else { // else console.log that we did well 
-                console.log('successfully found cellar and now adding wine ', req.params.wineId);
-                var newItem = new CellarItem(req.body.cellarItem)
+            else { // else console.log that we succeeded 
+                console.log('successfully found cellar ', cellar)
+                console.log('successfully found cellar and now adding cellarItem ', req.body.cellarItem);
+                var newItem = new CellarItem(req.body.cellarItem)//.populate({path: 'wine'}).exec( function (err){})
                 // Try to save that new wine to the database 
                 newItem.save(function (err){
                     if (err) { console.log("ERROR: error saving new item to cellar ", cellar._id) }
                     else {
-                        cellar.wines.push(newItem._id)
+                        cellar.cellarItems.push(newItem._id)
                         cellar.save(function (err){
                             if (err) { console.log("ERROR: error saving newItem " + newItem._id + "to cellar ", cellar._id) }
                             else{
-                                //here we finally return the new CellarItem to the client
-                                //after it has been successfully created AND successfully added to the 
-                                //cellar.  
                                 //TODO: IF THE cellar.save() is unsuccessful, shoudl we delete the orphaned 
                                 //CellarItem since it will just be not be embedded in any other document
                                 //and will therefore be unreachable?
-                                res.json(newItem)
+                                
+                                //here we finally return the new CellarItem to the client
+                                //after it has been successfully created AND successfully added to the 
+                                //cellar....but not before we populat the embedded wine document!  
+                                newItem.populate('wine', function (err){
+                                    if (err) { 
+                                        console.log("comtrollers: cellarItems.js > addToCellar > error populating wine in new CellarItem")
+                                        res.json(err) 
+                                    }
+                                    else { 
+                                        console.log("controllers: cellarItems.js > addToCellar > successfully populated wine in new Cellaritem")
+                                        res.json(newItem) 
+                                    }
+                                }) 
                             }
                         })
                         console.log("SUCCESS saving newItem " + newItem._id + "to cellar ", cellar._id) 

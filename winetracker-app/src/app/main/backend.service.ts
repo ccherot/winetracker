@@ -51,7 +51,16 @@ export class BackendService {
   }
 
 
-  //Cellar Realted
+  //Cellar Related
+
+  //this should get all of the CellarItems within a cellar
+  doGetCellar(id:string)
+  {
+    console.log("backend.service: doGetcellar called")
+
+    return this._http.get('/cellar/' + id).share()
+    .map( (response:Response) => response.json() )
+  }
 
   doAddCellar(newCellar)
   {      
@@ -72,6 +81,14 @@ export class BackendService {
 
   }
 
+  doDeleteCellar(id:String)
+  {
+    console.log("backend.service: doDelete cellar called")
+
+    return this._http.delete("/cellar/" + id)
+      .map( (response: Response) => response.json() )
+  }
+
   //
   //Cellaritem Related
   //
@@ -86,11 +103,11 @@ export class BackendService {
 
   doAddToCellar(cellarId, newItem)
   {
-        
+    console.log("backend.service: doAddToCellar > cellarId is " + cellarId + " and newItem is ", newItem)     
     let headers = new Headers( {"Content-Type": "application/json"} )
     let reqOptions = new RequestOptions( { headers: headers } )
-    let body = {cellarId: cellarId, newItem: newItem}
-    return this._http.post("/cellaritem", body, reqOptions).share()
+    let data = {cellarId: cellarId, cellarItem: newItem}
+    return this._http.post("/cellaritem", JSON.stringify(data), reqOptions).share()
       .map( (response: Response ) => response.json() )
 
   }

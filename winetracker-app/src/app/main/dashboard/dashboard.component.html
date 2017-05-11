@@ -1,8 +1,15 @@
 <p>
   dashboard works!
 </p>
+  User: {{ _loginService.currentUser | async | json }}
   <br>
-  cellars: {{_loginService.currentUser.cellars}}
+  cellars: {{ _loginService.currentUser.value.cellars | json }}
+  <br>
+  <!-- 
+  <br>
+  cellars: {{_loginService.currentUser.value.cellars | json }}
+  <br>
+  -->
 <button 
   (click)="onClickLogout()" 
   id="logoutButton"
@@ -17,6 +24,14 @@
   Add Cellar
 </button>
 <button 
+  (click)="onClickAddNewWine()" 
+  id="addNewWineButton"
+  name="addNewWineButton"
+  class="dashBoardButtonClass">
+  Add New Wine
+</button>
+
+<button 
   (click)="onClickEditProfile()" 
   id="editProfileButton"
   name="editProfileButton"
@@ -29,6 +44,23 @@
   class="cellarListLabelClass">
   Available Cellars
 </label>
+<!--
 <ul>
-  <!-- <li *ngFor="cellar in _loginService.currentUser.cellars">{{cellar.cellarName}}</li> -->
-</ul>
+  <li *ngFor="let cellar of _loginService.currentUser.value.cellars">{{cellar.cellarName}}</li> 
+</ul-->
+<table>
+    <th>Cellar Name</th>
+    <th>Number of Items</th>
+    <th>Date Created</th>
+    <th>Actions</th>
+    <tr *ngFor="let cellar of _loginService.currentUser.value.cellars">
+      <td>{{cellar.cellarName}}</td>
+      <td>{{cellar.cellarItems.length}}</td>
+      <td>{{cellar.createdAt | date:'shortDate'}}</td>
+      <td>
+        <button (click)="onClickEdit(cellar)" id="editButton" class="editButtonClass">Edit</button>
+        <button (click)="onClickDelete(cellar)" id="deleteButton" class="deleteButtonClass">Delete</button>
+        <button (click)="onClickShow(cellar)" id="showButton" class="showButtonClass">Show</button>
+       </td>
+    </tr>
+  </table>

@@ -5,18 +5,20 @@ var Cellar = mongoose.model("Cellar")
 var CellarItem = mongoose.model("CellarItem")
 
 module.exports = {    
-    //this should return a list of all wines from a certain cellar
+    //this returns a list of all cellarItems from a certain cellar
     getCellar: function(req, res) {
-        // This is where we will retrieve the wines contained in the cellar 
-        Products.find(req.params._id).populate('wines').exec(function (err, wines){
+        // This is where we will retrieve the CellarItems contained in the cellar 
+        //and populate each cellar item with its wine as well
+        console.log("controllers: cellars.js > getCellar called for ", req.params.id)
+        Cellar.findById(req.params.id).populate({path: 'cellarItems', populate: { path: 'wine'} } ).exec(function (err, cellar){ //had 'wines' instead of cellarItems 
             if (err)
             {
-                console.log("ERROR: Error retrieving wines from cellar ", req.params._id)
+                console.log("ERROR: Error retrieving wines from cellar ", req.params.id)
             }
             else
             {
-                console.log(wines.length + " wines were retrieved from the database")
-                res.json(wines)
+                console.log("retrieved cellar is: ", cellar)
+                res.json(cellar)
             }
         })
     },

@@ -36,11 +36,19 @@ export class LoginComponent implements OnInit {
     let userObj = {email: this.userEmail, password: this.userPassword}
     this._loginService.login(userObj).toPromise()
       .then( user => { 
-        console.log("login: onClickLogin > user is ", user) 
-        //this.currentUser = user
-        this.loginEvent.emit(user)
+        //if the server returned false then there was a password mismatch
+        if (!user) { this.onLoginError() }
+        else {
+        
+          console.log("login: onClickLogin > user is ", user) 
+          //this.currentUser = user
+          this.loginEvent.emit(user)
+        }
       })
-      .catch( error => console.log("ERROR: login: onClickLogin > error is", error))
+      .catch( error => {
+        console.log("ERROR: login: onClickLogin > error is", error)
+        this.onLoginError()
+      })
   }
 
   onClickRegister()
@@ -52,6 +60,12 @@ export class LoginComponent implements OnInit {
         else { console.log("login: onClickRegister > user is ", user) }
       })
       .catch( error => { console.log("login: onClickRegister > error is", error) } ) 
+  }
+
+  onLoginError()
+  {
+    //TODO:  CHANGE THE STYLE OF THE TEXTFIELDS TO BE RED OR 
+    //PROVIDE FEEDBACK TO USER ABOUT PASSWORD OR USERNAME BEING INCORRECT
   }
 
 }

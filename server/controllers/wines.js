@@ -41,14 +41,15 @@ module.exports = {
         // create a new Wine with the name and age corresponding to those from req.body
         var wine= new Wine(req.body);
         // Try to save that new wine to the database 
-        Wine.save(function(err) {
+        wine.save(function(err) {
             // if there is an error console.log that something went wrong!
             if(err) {
                 console.log('something went wrong while saving a new wine');
             } 
             else { // else console.log that we did well 
                 console.log('successfully added a new wine!');
-                res.json(true);
+                //return the new wine
+                res.json(wine);
             }
         })
     },
@@ -56,6 +57,8 @@ module.exports = {
     //update a wine's info
     updateWine: function(req,res){
         console.log("controllers/wines.js > update > req.body is ", req.body);
+
+        //TODO: CHANGE THIS TO FINDONEANDUPDATE SO THAT YOU CAN RETURN THE WINE
         Wine.update({_id: req.body._id}, req.body, function(err){
             if (err){
                 console.log('ERROR: controllers/wines.js > update > there was an error updating wine: ' + req.body._id)

@@ -1,3 +1,4 @@
+import { LoginService } from './login.service';
 import { BackendService } from './backend.service';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -27,8 +28,12 @@ export class WineService {
   set wineToEdit(val:Wine) { this._wineToEdit = val }
   get wineToEdit():Wine { return this._wineToEdit }
 
+  //the current cellar being displayed in the cellar-list component
+  private _currentCellar: BehaviorSubject<Cellar> = new BehaviorSubject<Cellar>(new Cellar())
+  public readonly currentCellar:Observable<Cellar> = this._currentCellar  
+
   
-  constructor(private _backendService:BackendService) { }
+  constructor(private _backendService:BackendService, private _loginService:LoginService) { }
   //
   //Wine Related
   //
@@ -73,6 +78,25 @@ export class WineService {
   //
   //Cellar related
   //
+
+  getCellar(id:string)
+  {
+    let obs = this._backendService.doGetCellar(id)
+
+    obs.subscribe(
+      res => {
+        if (!res || res.errors) { console.log("ERROR: wine.service: getCellar > error retrieving cellar data: ", res)}
+        else{
+          console.log("wine.service: getCellar > successfully retrivied cellar data: ", res)
+          //set the currentCellar observable value
+          this._currentCellar.next(res)
+        }
+      }
+    )
+
+    return obs
+  }
+
   addCellar(newCellar)
   {
     console.log("wine.service: addCellar called.  newCellar is ", newCellar)
@@ -106,10 +130,36 @@ export class WineService {
 
   addToCellar(cellarId, newItem)
   {
+    console.log("wine.service: addToCellar > cellarId is " + cellarId + " and newItem is ", newItem)
+    
     let obs = this._backendService.doAddToCellar(cellarId, newItem)
 
     obs.subscribe(
-      res => {console.log("wine.service: addToCellar > res is ", res)} 
+      res => {
+        console.log("wine.service: addToCellar > res is ", res)
+        if (!res || res.errors) { console.log("wine.service: ERROR > error adding wine to cellar") }
+        else {
+          console.log("wine.service: successfully added wine to cellar")
+          //locally add the wine to the currentCellar
+          //if its the one we just added the item to
+          //if the currentCellar is the one that we just added to 
+          if(this._currentCellar.value._id == cellarId)
+          {
+            this._currentCellar.value.cellarItems.push(res)
+          }
+        }
+      } 
+    )
+
+    return obs
+  }
+
+  deleteCellar(id:String)
+  {
+    let obs = this._backendService.doDeleteCellar(id)
+
+    obs.subscribe(
+      res => { console.log("wine.service: deleteCellar > res is ", res) }
     )
 
     return obs

@@ -15,7 +15,11 @@ export class MainComponent implements OnInit {
   ngOnInit() {
 
     //see if there is a logged in user
+    console.log("main: ngOnInit: calling this._loginService.getUser()")
     this._loginService.getUser()
+    this._loginService.isLoggedIn.subscribe(
+      res => { console.log( "main: ngOnInit > subscribed to _loginService.isLoggedIn > res is ", res)}
+    )
   }
 
   onLogoutClickEvent()

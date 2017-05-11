@@ -1,19 +1,27 @@
 <p>
   cellaritem-new works!
 </p>
+targetCellar is:
+{{ targetCellar | json }}
+<br>
 newWine is:
 <br>
 {{ newWine | json }}
 <br>
 newCellaritem is: 
 {{ newCellaritem | json }}
+<br>
 <button 
-  id="cancelButton"
-  class="cancelButtonClass"
-  (click)="onClickCancel()">Cancel</button>
+  id="doneButton"
+  class="doneButtonClass"
+  (click)="onClickDone()">Done</button>
+<button 
+  id="uploadButton"
+  class="uploadButtonClass"
+  (click)="onClickUpload()">Upload CSV File</button>
  
 <form 
-  (submit)="onClickAddWine()" 
+  (submit)="onClickAddWine(formData)" 
   id="newCellarItemForm"
   name="newCellarItemForm"
   class="newCellarItemFormClass"
@@ -62,6 +70,17 @@ newCellaritem is:
     class="cellarItemInputClass"
     name="cuvee"
     [(ngModel)]="newWine.cuvee">
+    <br>
+  <label 
+    id="vintageLabel"
+    class="cellarItemLabelClass">
+    Vintage:</label>
+  <input 
+    type="text"
+    id="inputVintage"
+    class="cellarItemInputClass"
+    name="vintage"
+    [(ngModel)]="newWine.vintage">
     <br>
   <label 
     id="countryLabel"
@@ -141,6 +160,17 @@ newCellaritem is:
     [(ngModel)]="newCellarItem.purchaseDate">
     <br>
   <label 
+    id="purchaseLocation"
+    class="cellarItemLabelClass">
+    Purchase Location:</label>
+  <input 
+    type="text"
+    id="inputPurchaseLocation"
+    class="cellarItemInputClass"
+    name="purchaseLocation"
+    [(ngModel)]="newCellarItem.purchaseLocation">
+    <br>
+  <label 
     id="storageLocationLabel"
     class="cellarItemLabelClass">
     Storage Location:</label>
@@ -149,10 +179,17 @@ newCellaritem is:
     id="inputStorageLocation"
     class="cellarItemInputClass"
     name="storageLocation"
-    [(ngModel)]="newCellarItem.storageLocation">
+    [(ngModel)]="newCellarItem.storageLocationId">
     <br>
-  <select name="Cellar" id="cellarSelect" class="cellarSelectClass">
-    <option  *ngFor="let cellar of cellars" value="cellar">{{ cellar.cellarName }}</option> <!--[(ngModel)]="whichCellar" -->
+  <select 
+    name="cellarSelect" 
+    id="cellarSelect" 
+    class="cellarSelectClass"
+    [(ngModel)]="targetCellar">
+    <option  
+      *ngFor="let cellar of cellars"
+      [ngValue]="cellar">{{ cellar.cellarName }}
+    </option> 
   </select>
   <input
     id="formCreateButton"

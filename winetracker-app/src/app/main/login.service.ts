@@ -17,14 +17,18 @@ export class LoginService {
   private _currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(new User())
   public readonly currentUser: Observable<User> = this._currentUser//.asObservable()
 
-  //does this need to be an observalbe?
+  //the _isLoggedIn flag is an observable which can be used with the async pipe 
+  //throughout the various components of the application
   private _isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
   public readonly isLoggedIn: Observable<boolean> = this._isLoggedIn
 
   //cookie is stored with this key
   userKey: string = "loggedInUser"
 
-  constructor(private _cookieService: CookieService, private _backendService:BackendService) { }
+  constructor(private _cookieService: CookieService, private _backendService:BackendService) 
+  { 
+    console.log("login.service: constructor called")
+  }
 
   //this sets the user observable value to the cookie value
   getUser()
@@ -36,23 +40,32 @@ export class LoginService {
       this._isLoggedIn.next(true)
     }
     else{
-      this._currentUser = null
+      console.log("getUser called and this._isLoggedIn is ",  this._isLoggedIn.value)
+      //this._currentUser = null
       this._isLoggedIn.next(false)
     }
   }
 
   getCookieUser(key: string){
+    console.log("login.service: getCookieUser called for key: ", key)
     return this._cookieService.getObject(this.userKey);
   }
 
   logout()
   {
+    console.log("login.service: logout called")
     this._isLoggedIn.next(false)
     this._cookieService.remove(this.userKey)
+    //set the currentUser to an empty user
+    this._currentUser.next(new User())
   }
 
   login(userObj) 
   {
+    console.log("service.service: login called ")
+    console.log("login.service: login called and _isLoggedIn is ", this._isLoggedIn)
+    console.log("login.service: login called and _currentUser is ", this._currentUser)
+    
     //create an observable that we will return to the caller
     let obs = this._backendService.doLogin(userObj)
     
@@ -72,13 +85,19 @@ export class LoginService {
 
   register(newUser)
   {
+    console.log("login.service: register called");
+    
+    console.log("login.service: register called and _isLoggedIn is ", this._isLoggedIn)
+    console.log("login.service: register called and _currentUser is ", this._currentUser)
+    
     let obs = this._backendService.doRegister(newUser)
 
     obs.subscribe(
       res => {
         console.log("login.service: register > res is ", res)
-        this._currentUser = res
-        this._cookieService.putObject(this.userKey, this._currentUser)
+        this._currentUser.next(res)
+        this._cookieService.putObject(this.userKey, this._currentUser.value)
+        this._isLoggedIn.next(true)
       }
     )
 
@@ -87,12 +106,21 @@ export class LoginService {
 
   updateUser(editUser)
   {
+    delete editUser.password
+    delete editUser.passwordConfirm
     let obs = this._backendService.doUpdateUser(editUser)
 
     obs.subscribe(
-      res => { console.log("login-service: updateUser > res is ", res)} 
+      res => { 
+        //TODO: CHECK FOR ERRORS?
+        console.log("login-service: updateUser > res is ", res)
+        this._currentUser.next(res)
+        this._cookieService.putObject(this.userKey, this._currentUser.value)
+      } 
     )
 
     return obs
   }
+
+  
 }
