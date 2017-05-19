@@ -84,9 +84,10 @@ export class DashboardComponent implements OnInit {
       })
   }
 
-  onClickEdit()
+  onClickEdit(cellar)
   {
     console.log("dashboard: onClickEditCalled")
+    this._wineService.cellarToEdit = cellar
     this._appMessenger.dispatchMessage(
       new AppMessage(Utils.kCELLAR_VIEW_MODE_CHANGE_EVENT, Utils.kCELLAR_EDIT_MODE))
   }

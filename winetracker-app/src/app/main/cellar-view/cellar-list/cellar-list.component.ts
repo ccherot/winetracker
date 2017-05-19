@@ -8,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CellarListComponent implements OnInit {
 
+  
+
   constructor(private _wineService:WineService) { }
 
   ngOnInit() {
-    
+
   }
 
 }
