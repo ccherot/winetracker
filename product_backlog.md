@@ -1,17 +1,17 @@
 File Upload - This feature will allow a user to upload a CSV file or something like that so that they can instantly populate their cellar with wine
 
-Edit Cellar Item - part of the remaining CRUD operations that need to be finished
+DONE:  Edit Cellar Item - part of the remaining CRUD operations that need to be finished
 
 complete all code for CRUD operations:
-  cellar: update 
+  DONE: cellar: update 
   
-  celaritem: read (reading operation will be coupled with edit I think because it more about viewing the wine than editing the  quantity), update, delete (Although most of the time a user will simply leave a cellaritem with a quantity of 0, in some cases they may need or want to actually delete the item so we can enable this operation)
+  DONE: celaritem: read (reading operation will be coupled with edit I think because it more about viewing the wine than editing the  quantity), update, delete (Although most of the time a user will simply leave a cellaritem with a quantity of 0, in some cases they may need or want to actually delete the item so we can enable this operation)
   
-  user: update, delete
+  user: separate update password functionality into a different view and remove visible password hash info from edit user form
   
   wine: update, delete - For now, this app will allow multiple users to edit the same wine info which is something that would need to be addressed in future.  Only administrators would be allowed to edit the wine information which raises the question of what to do with the process of uploading CSV files.  We would have to search for each wine first to see if it was an existing wine (even if a different vintage)  This could get tricky but will need to be addressed if this is to be used out in the wild.
   
-Basic styling - even just for the sake of havong something that looks vaguely like a real website
+Basic styling - even just for the sake of having something that looks vaguely like a real website ;-)
   
 replace mongoose's deprecated promise library - get rid of this warning that keeps popping up
 
