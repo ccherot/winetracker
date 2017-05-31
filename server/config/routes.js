@@ -112,7 +112,7 @@ module.exports = function(app){
     //CellarItem Routes
     //
 
-    app.patch('cellaritem', function (req, res) {
+    app.patch('/cellaritem', function (req, res) {
         cellarItems.updateCellarItem(req, res)
     })
 

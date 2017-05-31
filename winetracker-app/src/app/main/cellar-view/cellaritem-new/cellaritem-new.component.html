@@ -9,7 +9,7 @@ newWine is:
 {{ newWine | json }}
 <br>
 newCellaritem is: 
-{{ newCellaritem | json }}
+{{ newCellarItem | json }}
 <br>
 <button 
   id="doneButton"
@@ -138,17 +138,6 @@ newCellaritem is:
     [(ngModel)]="newCellarItem.price">
     <br>
   <label 
-    id="purchaseLocationLabel"
-    class="cellarItemLabelClass">
-    Purchase Location:</label>
-  <input 
-    type="text"
-    id="inputPurchaseLocation"
-    class="cellarItemInputClass"
-    name="purchaseLocation"
-    [(ngModel)]="newCellarItem.purchaseLocation">
-    <br>
-  <label 
     id="purchaseDateLabel"
     class="cellarItemLabelClass">
     Purchase Date:</label>
@@ -160,7 +149,7 @@ newCellaritem is:
     [(ngModel)]="newCellarItem.purchaseDate">
     <br>
   <label 
-    id="purchaseLocation"
+    id="purchaseLocationLabel"
     class="cellarItemLabelClass">
     Purchase Location:</label>
   <input 

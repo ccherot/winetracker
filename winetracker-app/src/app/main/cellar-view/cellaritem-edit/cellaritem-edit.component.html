@@ -1,3 +1,129 @@
 <p>
   cellaritem-edit works!
 </p>
+cellarItem: {{cellarItem | json }}}
+<div id="cellarItemContainer" class="cellarItemContainerClass">
+  <label 
+    id="producerLabel"
+    class="cellarItemLabelClass">
+    Producer: {{ cellarItem.wine.producer }}</label> <!-- [(ngModel)]="newWine.producer" -->
+  <label 
+    id="domainLabel"
+    class="cellarItemLabelClass">
+    Domain: {{ cellarItem.wine.domain }}</label>
+    <br>
+  <label 
+    id="varietalLabel"
+    class="cellarItemLabelClass">
+    Varietal(s): {{ cellarItem.wine.varietal }} </label>
+    <br>
+  <label 
+    id="cuveeLabel"
+    class="cellarItemLabelClass">
+    Cuvee: {{ cellarItem.wine.cuvee }}</label>
+    <br>
+  <label 
+    id="vintageLabel"
+    class="cellarItemLabelClass">
+    Vintage: {{cellarItem.wine.vintage}}</label>
+    <br>
+  <label 
+    id="countryLabel"
+    class="cellarItemLabelClass">
+    Country: {{cellarItem.wine.country}}</label>
+  <br>
+  <label 
+    id="regionLabel"
+    class="cellarItemLabelClass">
+    Region: {{cellarItem.wine.region}}</label>
+  <br>
+  <label 
+    id="appellationLabel"
+    class="cellarItemLabelClass">
+    Appellation: {{cellarItem.wine.appellation}}</label>
+    <br>
+<!-- edit this so that we are changing the 'new' to 'edit' -->    
+  <form 
+    (submit)="onClickEditCellarItem(formData)" 
+    id="editCellarItemForm"
+    name="editCellarItemForm"
+    class="editCellarItemFormClass"
+    #formData="ngForm">
+  <label 
+    id="quantityLabel"
+    class="cellarItemLabelClass">
+    Quantity:</label>
+  <input 
+    type="text"
+    id="inputQuantity"
+    class="cellarItemInputClass"
+    name="quantity"
+    [(ngModel)]="cellarItem.quantity">
+    <br>
+  <label 
+    id="priceLabel"
+    class="cellarItemLabelClass">
+    Price:</label>
+  <input 
+    type="text"
+    id="inputPrice"
+    class="cellarPriceInputClass"
+    name="quantity"
+    [(ngModel)]="cellarItem.price">
+    <br>
+  <label 
+    id="purchaseLocationLabel"
+    class="cellarItemLabelClass">
+    Purchase Location:</label>
+  <input 
+    type="text"
+    id="inputPurchaseLocation"
+    class="cellarItemInputClass"
+    name="purchaseLocation"
+    [(ngModel)]="cellarItem.purchaseLocation">
+    <br>
+  <label 
+    id="purchaseDateLabel"
+    class="cellarItemLabelClass">
+    Purchase Date:</label>
+  <input 
+    type="date"
+    id="inputPurchaseDate"
+    class="cellarItemInputClass"
+    name="purchaseDate"
+    [(ngModel)]="cellarItem.purchaseDate">
+    <br>
+  <label 
+    id="storageLocationLabel"
+    class="cellarItemLabelClass">
+    Storage Location:</label>
+  <input 
+    type="text"
+    id="inputStorageLocation"
+    class="cellarItemInputClass"
+    name="storageLocation"
+    [(ngModel)]="cellarItem.storageLocationId">
+    <br>
+    <!-- The option to change the cellar for a cellarItem could be added or perhaps it
+    makes more sense to have a feature where you can add a cellarItem to another cellar  -->
+    <!-- 
+  <select 
+    name="cellarSelect" 
+    id="cellarSelect" 
+    class="cellarSelectClass"
+    [(ngModel)]="targetCellar">
+    <option  
+      *ngFor="let cellar of cellars"
+      [ngValue]="cellar">{{ cellar.cellarName }}
+    </option> 
+  </select>
+  -->
+  <input
+    id="formCreateButton"
+    class="formCreateButtonClass"
+    type="submit"
+    name="submit"
+    value="Edit Cellar Item">
+</form>
+
+</div>

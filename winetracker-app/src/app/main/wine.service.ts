@@ -16,6 +16,11 @@ export class WineService {
   //These do not need to be Observables / BehaviorSubjects so we can just use 
   //regular getter / setter syntax 
 
+  //TODO: it would make more sense to pass these in an AppMessage using the 
+  //EventService.  Better yet, use routing and data resolvers for the various routes
+  //in the main cellar view component instead of the ngSwitch statement currently
+  //being used to display the various CRUD related components for cellars, cellaritems, etc.
+
   private _cellarToEdit:Cellar
   set cellarToEdit(val:Cellar) { this._cellarToEdit = val }
   get cellarToEdit():Cellar { return this._cellarToEdit }
@@ -63,6 +68,32 @@ export class WineService {
     )
 
     return obs    
+  }
+
+  //
+  //Edit an existing cellar item
+  //
+  updateCellarItem(cellarItem:CellarItem)
+  {
+    let obs = this._backendService.doEditCellarItem(cellarItem)
+
+    obs.subscribe (
+      res => { 
+        console.log("wine.service: editCellarItem > res is ", res) 
+        //find the local copy of the updatedCellarItem and replace it 
+        let idx = this._currentCellar.value.cellarItems.findIndex( item => item._id = res._id)
+        if (idx != -1)
+        {
+            console.log("updating the local cellar item ")
+            this._currentCellar.value.cellarItems[idx] = res
+        }
+        else{
+          console.log("currentCellar does not contain item ", res._id)
+        }
+      }
+    )
+
+    return obs
   }
 
   //TODO:  SHOULD CELLAR ITEMS BE DELETED WHEN THE QTY == 0 ?

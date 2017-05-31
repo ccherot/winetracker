@@ -111,4 +111,16 @@ export class BackendService {
       .map( (response: Response ) => response.json() )
 
   }
+
+  doEditCellarItem(cellarItem)
+  {
+    console.log("backend.service: doUpdateCellarItem > _id is ", cellarItem._id)
+
+    const headers = new Headers({ "Content-Type": "application/json" })
+  	const options = new RequestOptions({ headers: headers })
+    return this._http.patch("/cellaritem", cellarItem, options).share()
+      .map ( (response: Response) => response.json() )
+    
+
+  }
 }

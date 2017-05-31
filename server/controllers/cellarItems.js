@@ -6,33 +6,43 @@ var CellarItem = mongoose.model("CellarItem")
 
 module.exports = {        
     
-    //update a wine's info by incrementing or decrementing a CellarItem's quantity
-    //or changing some other info about it
+    //update a CellarItem's info 
     updateCellarItem: function(req,res){
-        console.log("controllers/wines.js > update > req.body is ", req.body);
-        Wine.update({_id: req.body._id}, req.body, function(err){
+        console.log("controllers/cellarItems.js > update > req.body is ", req.body);
+        //update the item, find it, and send it back
+        CellarItem.update({_id: req.body._id}, req.body, function(err){
             if (err){
-                console.log('ERROR: controllers/wines.js > update > there was an error updating wine: ' + req.body._id)
+                console.log('ERROR: controllers/cellarItems.js > update > there was an error updating cellarItem: ' + req.body._id)
+                res.json(err)
             }
             else{
-                console.log('controllers/wines.js > update > successfully updated wine: ' + req.body._id)
-                //TODO: SHOULD I RETURN THE UPDATED WINE?
-                res.json(true)
+                console.log('controllers/cellarItems.js > update > successfully updated cellarItem: ', req.body._id)
+                //return the updated item
+                CellarItem.findById(req.body._id, function (err, item){
+                    if (err) { 
+                        console.log("controllers/cellarItems.js > updateCellarItem: error finding updatedItem to return to client")
+                        res.json(err)
+                    }
+                    else {
+                        console.log("controllers/cellarItems.js > updateCellarItem > successfully found item", item)
+                        res.json(item)
+                    }
+                })
             }
         })    
     },
 
     //completely remove a CellarItem from the DB
     deleteCellarItem: function(req,res) {
-        console.log("controllers: wines.js > delete > req.params.id is ", req.params.id)
+        console.log("controllers: cellarItems.js > delete > req.params.id is ", req.params.id)
         Wine.remove({_id: req.params.id}, function (err){
             if (err) {
-                var errStr = "There was an error deleting wine " + req.params.id + " from the database"
+                var errStr = "There was an error deleting cellarItem " + req.params.id + " from the database"
                 console.log(errStr)
                 res.json(err)
             }
             else{
-                console.log("successfully deleted wine " + req.params.id + " from the database")
+                console.log("successfully deleted cellarItem " + req.params.id + " from the database")
                 res.json(true)
             }
         })
@@ -74,7 +84,7 @@ module.exports = {
                                         res.json(err) 
                                     }
                                     else { 
-                                        console.log("controllers: cellarItems.js > addToCellar > successfully populated wine in new Cellaritem")
+                                        console.log("controllers: cellarItems.js > addToCellar > successfully populated wine in new CellarItem: ", newItem)
                                         res.json(newItem) 
                                     }
                                 }) 

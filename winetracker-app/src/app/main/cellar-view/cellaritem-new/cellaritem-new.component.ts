@@ -26,7 +26,7 @@ export class CellaritemNewComponent implements OnInit {
   newWine: Wine = new Wine()
 
   //this is the new Cellaritem being created with this wine 
-  newCellarItem = new CellarItem()
+  newCellarItem: CellarItem = new CellarItem()
 
   //this is the cellar that this wine is going into
   targetCellar: Cellar //= this._loginService.currentUser.value().cellars[0]
@@ -72,7 +72,8 @@ export class CellaritemNewComponent implements OnInit {
 
   addCellarItem(wineId: string)
   {
-    console.log("cellar-item-new: onClickAddWine called > targetCellar is ", this.targetCellar.cellarName)
+    console.log("cellar-item-new: addCellarItem > targetCellar is ", this.targetCellar.cellarName)
+    console.log("cellar-item-new: addCellarItem > newCellarItem is ", this.newCellarItem)
     
     //add the new wine to the cellarItem
     this.newCellarItem.wine = wineId;

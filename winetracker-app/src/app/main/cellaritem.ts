@@ -9,8 +9,9 @@ export class CellarItem {
     storageLocationId: number
     createdAt: Date
     updatedAt: Date
+    _id: string
 
-    constructor(quantity = 0, price = 0, purchaseDate = null, purchaseLocation = "", wine = "", storageLocationId = -1, )
+    constructor(quantity = 0, price = 0, purchaseDate = null, purchaseLocation = "", wine = "", storageLocationId = -1 )
     {
         this.quantity = quantity
         this.price = price
