@@ -13,5 +13,4 @@ var CellarItemSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 mongoose.model('CellarItem', CellarItemSchema);
-//do I need this line?
-//var CellarItem = mongoose.model('CellarItem');
+

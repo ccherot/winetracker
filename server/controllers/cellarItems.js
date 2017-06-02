@@ -6,6 +6,9 @@ var CellarItem = mongoose.model("CellarItem")
 
 module.exports = {        
     
+    //TODO: CHANGE THIS TO USE findOneAndUpdate and use the {new: true} option
+    //to return the updated object.  Tgis way you do not need to update and then find! Duh!
+
     //update a CellarItem's info 
     updateCellarItem: function(req,res){
         console.log("controllers/cellarItems.js > update > req.body is ", req.body);

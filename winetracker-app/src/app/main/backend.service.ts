@@ -38,6 +38,15 @@ export class BackendService {
     
   }
 
+  doChangePassword(newCredentials)
+  {
+    const headers = new Headers({ "Content-Type": "application/json" })
+  	const options = new RequestOptions({ headers: headers })
+    return this._http.post("/users/changepassword", newCredentials, options).share()
+      .map ( (response: Response) => response.json() )
+    
+  }
+
 
   //Wine Related
 

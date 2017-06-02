@@ -7,6 +7,9 @@ export class Utils {
     static readonly kCELLAR_ITEM_NEW_MODE: string = "cellarItemNewMode"
     static readonly kEDIT_PROFILE_MODE: string = "editProfileMode"
     static readonly kCELLAR_LIST_MODE: string = "cellarListMode"
+    //this should trigger the default view because none of the other 
+    //ngSwitch cases are set to this value
+    static readonly kCELLAR_DEFAULT_MODE: string = "default"
     
 
     //event constants

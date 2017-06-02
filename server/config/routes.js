@@ -44,6 +44,11 @@ module.exports = function(app){
         users.updateUser(req, res);
     });
 
+    //this will allow a user to change their password
+    app.post('/users/changepassword', function (req, res) {
+        users.changePassword(req, res);
+    })
+
 
     //
     //Wine Routes

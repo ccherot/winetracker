@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs';
 import { CellarItem } from './../cellaritem';
 import { Cellar } from './../Cellar' 
 import { Utils } from './../utils/utils';
@@ -5,6 +7,7 @@ import { AppMessage } from './../appmessage';
 import { EventService } from './../event.service';
 import { User } from './../user';
 import { Component, OnInit, Input } from '@angular/core';
+
 
 @Component({
   selector: 'app-cellar-view',
@@ -28,11 +31,13 @@ export class CellarViewComponent implements OnInit {
   cellarItem:CellarItem
   cellar:Cellar
 
+  appMessage: Subscription
+
 
   constructor(private _appMessenger:EventService) { }
 
   ngOnInit() {
-    this._appMessenger.appMessage.subscribe(
+    this.appMessage = this._appMessenger.appMessage.subscribe(
       res => {
         //if the event concerns this compoent's view mode then set it
         console.log("cellar-view: ngOnInit > subscribed to _appMessenger.appMessage > res is ", res)
@@ -42,4 +47,10 @@ export class CellarViewComponent implements OnInit {
         }
       })
   }
+
+  ngOnDestroy() {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.appMessage.unsubscribe()
+  }   
 }
