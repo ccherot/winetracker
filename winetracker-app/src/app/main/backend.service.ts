@@ -38,6 +38,15 @@ export class BackendService {
     
   }
 
+  doChangePassword(newCredentials)
+  {
+    const headers = new Headers({ "Content-Type": "application/json" })
+  	const options = new RequestOptions({ headers: headers })
+    return this._http.post("/users/changepassword", newCredentials, options).share()
+      .map ( (response: Response) => response.json() )
+    
+  }
+
 
   //Wine Related
 
@@ -48,6 +57,15 @@ export class BackendService {
     return this._http.post("/wines", newWine, reqOptions).share()
       .map( (response: Response ) => response.json() )
 
+  }
+
+  doUpdateWine(wine)
+  {
+    let headers = new Headers( {"Content-Type": "application/json"} )
+    let reqOptions = new RequestOptions( { headers: headers } )
+    return this._http.patch("/wines", wine, reqOptions).share()
+      .map( (response: Response ) => response.json() )
+    
   }
 
 
@@ -109,6 +127,18 @@ export class BackendService {
     let data = {cellarId: cellarId, cellarItem: newItem}
     return this._http.post("/cellaritem", JSON.stringify(data), reqOptions).share()
       .map( (response: Response ) => response.json() )
+
+  }
+
+  doEditCellarItem(cellarItem)
+  {
+    console.log("backend.service: doUpdateCellarItem > _id is ", cellarItem._id)
+
+    const headers = new Headers({ "Content-Type": "application/json" })
+  	const options = new RequestOptions({ headers: headers })
+    return this._http.patch("/cellaritem", cellarItem, options).share()
+      .map ( (response: Response) => response.json() )
+    
 
   }
 }

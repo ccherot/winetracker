@@ -1,8 +1,13 @@
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs';
+import { CellarItem } from './../cellaritem';
+import { Cellar } from './../Cellar' 
 import { Utils } from './../utils/utils';
 import { AppMessage } from './../appmessage';
 import { EventService } from './../event.service';
 import { User } from './../user';
 import { Component, OnInit, Input } from '@angular/core';
+
 
 @Component({
   selector: 'app-cellar-view',
@@ -22,56 +27,30 @@ export class CellarViewComponent implements OnInit {
   cellarViewMode: string
   utils = Utils
 
-  /*
-  cellarEditVisible:boolean = false
-  cellarNewVisible:boolean = false
-  cellarItemEditVisible:boolean = false
-  cellarItemNewVisible:boolean = false
-  editProfileVisible:boolean = false
-  */
+
+  cellarItem:CellarItem
+  cellar:Cellar
+
+  appMessage: Subscription
+
 
   constructor(private _appMessenger:EventService) { }
 
   ngOnInit() {
-    this._appMessenger.appMessage.subscribe(
+    this.appMessage = this._appMessenger.appMessage.subscribe(
       res => {
         //if the event concerns this compoent's view mode then set it
         console.log("cellar-view: ngOnInit > subscribed to _appMessenger.appMessage > res is ", res)
         if (res.name == Utils.kCELLAR_VIEW_MODE_CHANGE_EVENT)
-        {
+        {          
           this.cellarViewMode = res.value
         }
       })
   }
 
-  //below is a lot of code I don't think I need any more
-
-  //toggle component visbility based on message name / value
-  /*
-  onAppMessage(appMessage:AppMessage)
-  {
-    console.log("cellar-view: onAppMessage > appMessage name is ", appMessage.name)
-    if (appMessage.value) { console.log("cellar-view: onAppMessage > appMessage value is ", appMessage.value) }
-
-    switch (appMessage.name)
-    {
-      case Utils.kAPP_MESSAGE_EDIT_CELLAR_EVENT :
-        this.cellarViewMode = appMessage.value;
-        break
-      case Utils.kAPP_MESSAGE_NEW_CELLAR_EVENT :
-        this.cellarViewMode = appMessage.value;
-        break
-      case Utils.kAPP_MESSAGE_EDIT_PROFILE_EVENT :
-        this.cellarViewMode = appMessage.value;
-        break
-      case Utils.kAPP_MESSAGE_NEW_CELLAR_ITEM_EVENT :
-        this.cellarViewMode = appMessage.value;
-        break
-      case Utils.kAPP_MESSAGE_EDIT_CELLAR_ITEM_EVENT :
-        this.cellarViewMode = appMessage.value
-        break
-    }
-  }
-  */
-
+  ngOnDestroy() {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.appMessage.unsubscribe()
+  }   
 }

@@ -7,11 +7,10 @@ var CellarItemSchema = new mongoose.Schema({
     quantity: {type: Number, required: true},
     price: {type: Number, required: false}, 
     purchaseDate: {type: Date, required: false}, 
-    purchaseLocaton: {type: String, required: false},
+    purchaseLocation: {type: String, required: false},
     wine: {type: Schema.Types.ObjectId, ref: 'Wine', required: true},
     storageLocationId: { type: Number, required: true }
 }, { timestamps: true });
 
 mongoose.model('CellarItem', CellarItemSchema);
-//do I need this line?
-//var CellarItem = mongoose.model('CellarItem');
+

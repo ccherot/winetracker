@@ -5,10 +5,12 @@ export class AppMessage {
     //properties at some point
     name: string
     value: any
+    data: any
 
-    constructor(name = "", value = null)
+    constructor(name = "", value = null, data = null)
     {
         this.name = name
         this.value = value
+        this.data = data
     }
 }

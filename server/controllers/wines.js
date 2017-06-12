@@ -58,15 +58,15 @@ module.exports = {
     updateWine: function(req,res){
         console.log("controllers/wines.js > update > req.body is ", req.body);
 
-        //TODO: CHANGE THIS TO FINDONEANDUPDATE SO THAT YOU CAN RETURN THE WINE
-        Wine.update({_id: req.body._id}, req.body, function(err){
+        //find and update the wine
+        Wine.findOneAndUpdate({_id: req.body._id}, req.body, {new: true},  function(err, wine){
             if (err){
                 console.log('ERROR: controllers/wines.js > update > there was an error updating wine: ' + req.body._id)
             }
             else{
-                console.log('controllers/wines.js > update > successfully updated wine: ' + req.body._id)
-                //TODO: SHOULD I RETURN THE UPDATED WINE?
-                res.json(true)
+                console.log('controllers/wines.js > update > successfully updated wine: ', wine)
+                //return the updated wine
+                res.json(wine)
             }
         })    
     },

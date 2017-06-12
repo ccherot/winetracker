@@ -1,28 +1,36 @@
+<!-- 
 <p>
   cellar-edit works!
 </p>
-<form 
-  (submit)="onClickSaveChanges()" 
-  id="editCellarItemForm"
-  name="editCellarItemForm"
-  class="editCellarItemFormClass"
-  #formData="ngForm">
-  <label 
-    id="cellarNameLabel"
-    class="cellarEditLabelClass">
-    Cellar Name:</label>
-  <input 
-    type="text"
-    id="inputCellarName" 
-    class="cellarInputClass" 
-    type="text" 
-    name="cellarName" 
-    [(ngModel)]="editCellarName">
-  <br>
-  <input
-    id="formCreateeditCellarButton"
-    class="formEditCellarButtonClass"
-    type="submit"
-    name="submit"
-    value="Save Changes">
-</form>
+-->
+<div>
+  <form 
+    (submit)="onClickSaveChanges()" 
+    id="editCellarItemForm"
+    name="editCellarItemForm"
+    class="editCellarItemFormClass"
+    #formData="ngForm">
+    <label 
+      id="cellarNameLabel"
+      class="cellarEditLabelClass">
+      Cellar Name:</label>
+    <input 
+      type="text"
+      id="inputCellarName" 
+      class="cellarInputClass" 
+      type="text" 
+      name="cellarName" 
+      [(ngModel)]="editCellarName">
+    <br>
+    <button 
+      id="cancelButton"
+      class="formEditCellarButtonClass"
+      (click)="onClickCancel()">Cancel</button>
+    <input
+      id="formCreateeditCellarButton"
+      class="formEditCellarButtonClass"
+      type="submit"
+      name="submit"
+      value="Save Changes">
+  </form>
+</div>
