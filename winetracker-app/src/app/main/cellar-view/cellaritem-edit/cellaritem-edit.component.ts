@@ -27,4 +27,11 @@ export class CellaritemEditComponent implements OnInit {
 
   }
 
+  onClickUpdateWineButton(formData)
+  {
+    console.log("cellaritem-edit: onClickUpdateWineButton: ", this.cellarItem.wine)
+
+    this._wineService.updateWine(this.cellarItem.wine)
+  }
+
 }

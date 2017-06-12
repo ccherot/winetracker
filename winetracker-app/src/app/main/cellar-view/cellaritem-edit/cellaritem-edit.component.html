@@ -3,47 +3,110 @@
   cellaritem-edit works!
 </p>
 -->
-cellarItem: {{cellarItem | json }}}
+<!-- cellarItem: {{cellarItem | json }}} -->
 <div id="cellarItemContainer" class="cellarItemContainerClass">
-  <label 
-    id="producerLabel"
-    class="cellarItemLabelClass">
-    Producer: {{ cellarItem.wine.producer }}</label> <!-- [(ngModel)]="newWine.producer" -->
-  <label 
-    id="domainLabel"
-    class="cellarItemLabelClass">
-    Domain: {{ cellarItem.wine.domain }}</label>
+  <form 
+    (submit)="onClickUpdateWineButton(formData)" 
+    id="editWineForm"
+    name="editWineForm"
+    class="editWineFormClass"
+    #wineFormData="ngForm">
+    <label 
+      id="producerLabel"
+      class="cellarItemLabelClass">
+      Producer: </label> <!-- [(ngModel)]="newWine.producer" -->
+    <input 
+      type="text"
+      id="inputProducer"
+      class="cellarItemInputClass"
+      name="producer"
+      [(ngModel)]="cellarItem.wine.producer">
     <br>
-  <label 
-    id="varietalLabel"
-    class="cellarItemLabelClass">
-    Varietal(s): {{ cellarItem.wine.varietal }} </label>
+    <label 
+      id="domainLabel"
+      class="cellarItemLabelClass">
+      Domain: </label>
+    <input 
+      type="text"
+      id="inputDomain"
+      class="cellarItemInputClass"
+      name="domain"
+      [(ngModel)]="cellarItem.wine.domain">
     <br>
-  <label 
-    id="cuveeLabel"
-    class="cellarItemLabelClass">
-    Cuvee: {{ cellarItem.wine.cuvee }}</label>
+    <label 
+      id="varietalLabel"
+      class="cellarItemLabelClass">
+      Varietal(s): </label>
+    <input 
+      type="text"
+      id="inputVarietal"
+      class="cellarItemInputClass"
+      name="varietal"
+      [(ngModel)]="cellarItem.wine.varietal">
     <br>
-  <label 
-    id="vintageLabel"
-    class="cellarItemLabelClass">
-    Vintage: {{cellarItem.wine.vintage}}</label>
+    <label 
+      id="cuveeLabel"
+      class="cellarItemLabelClass">
+      Cuvee: </label>
+    <input 
+      type="text"
+      id="inputCuvee"
+      class="cellarItemInputClass"
+      name="cuvee"
+      [(ngModel)]="cellarItem.wine.cuvee">
     <br>
-  <label 
-    id="countryLabel"
-    class="cellarItemLabelClass">
-    Country: {{cellarItem.wine.country}}</label>
-  <br>
-  <label 
-    id="regionLabel"
-    class="cellarItemLabelClass">
-    Region: {{cellarItem.wine.region}}</label>
-  <br>
-  <label 
-    id="appellationLabel"
-    class="cellarItemLabelClass">
-    Appellation: {{cellarItem.wine.appellation}}</label>
+    <label 
+      id="vintageLabel"
+      class="cellarItemLabelClass">
+      Vintage: </label>
+    <input 
+      type="text"
+      id="inputVintage"
+      class="cellarItemInputClass"
+      name="vintage"
+      [(ngModel)]="cellarItem.wine.vintage">
     <br>
+    <label 
+      id="countryLabel"
+      class="cellarItemLabelClass">
+      Country: </label>
+    <br>
+    <input 
+      type="text"
+      id="inputCountry"
+      class="cellarItemInputClass"
+      name="country"
+      [(ngModel)]="cellarItem.wine.country">  
+    <label 
+      id="regionLabel"
+      class="cellarItemLabelClass">
+      Region: </label>
+    <input 
+      type="text"
+      id="inputRegion"
+      class="cellarItemInputClass"
+      name="region"
+      [(ngModel)]="cellarItem.wine.region">
+    <br>
+    <label 
+      id="appellationLabel"
+      class="cellarItemLabelClass">
+      Appellation: </label>
+    <input 
+      type="text"
+      id="inputAppellation"
+      class="cellarItemInputClass"
+      name="appellation"
+      [(ngModel)]="cellarItem.wine.appellation">    
+    <br>
+      <input
+      id="updateWineInfoButton"
+      class="wineFormButtonClass"
+      type="submit"
+      name="submit"
+      value="Update Wine Information">
+    <br>
+  </form>
 <!-- edit this so that we are changing the 'new' to 'edit' -->    
   <form 
     (submit)="onClickEditCellarItem(formData)" 
@@ -121,11 +184,11 @@ cellarItem: {{cellarItem | json }}}
   </select>
   -->
   <input
-    id="formCreateButton"
+    id="formEditCellarItemButton"
     class="formCreateButtonClass"
     type="submit"
     name="submit"
-    value="Edit Cellar Item">
+    value="Update Cellar Item">
 </form>
 
 </div>

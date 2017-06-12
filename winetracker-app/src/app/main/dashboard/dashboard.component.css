@@ -1,0 +1,16 @@
+.contentContainer {
+    width: 90%;
+    border: solid gray 2px;
+    background-color: #eccd13;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#cellarViewContainer {
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
+    border: solid gray 2px;
+    background-color: #eccd13;
+}

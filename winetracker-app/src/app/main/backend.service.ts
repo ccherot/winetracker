@@ -59,6 +59,15 @@ export class BackendService {
 
   }
 
+  doUpdateWine(wine)
+  {
+    let headers = new Headers( {"Content-Type": "application/json"} )
+    let reqOptions = new RequestOptions( { headers: headers } )
+    return this._http.patch("/wines", wine, reqOptions).share()
+      .map( (response: Response ) => response.json() )
+    
+  }
+
 
   //Cellar Related
 
