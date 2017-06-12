@@ -16,6 +16,11 @@ export class WineService {
   //These do not need to be Observables / BehaviorSubjects so we can just use 
   //regular getter / setter syntax 
 
+  //TODO: it would make more sense to pass these in an AppMessage using the 
+  //EventService.  Better yet, use routing and data resolvers for the various routes
+  //in the main cellar view component instead of the ngSwitch statement currently
+  //being used to display the various CRUD related components for cellars, cellaritems, etc.
+
   private _cellarToEdit:Cellar
   set cellarToEdit(val:Cellar) { this._cellarToEdit = val }
   get cellarToEdit():Cellar { return this._cellarToEdit }
@@ -51,6 +56,43 @@ export class WineService {
     
   }
 
+  //For now any user can edit a wine.  This may change but the
+  //idea is to run your own instance of this app anyway, and then 
+  //it does not matter.  If multiple parties are sharing the same 
+  //instance of the app then there will need to be administrative 
+  //permissions required to edit wine info that is shared across 
+  //different users' cellars
+  updateWine(wine)
+  {
+    let obs = this._backendService.doUpdateWine(wine)
+
+    obs.subscribe(
+      res => { 
+        console.log("wine.service: updateWine > res is ", res) 
+        if (!res || res.errors)
+        {
+          console.log("wine.service: updateWine: there was an error updating the wine")
+        }
+        else
+        {
+          //update this to replace the instances of the wine 
+          //instead of instances of the cellarItem
+          let idx = this._currentCellar.value.cellarItems.findIndex( item => item.wine = res._id)
+          if (idx != -1)
+          {
+              console.log("updating the local copy of th eupdated wine")
+              this._currentCellar.value.cellarItems[idx].wine = res
+          }
+          else{
+            console.log("currentCellar does not contain a CellarItem with this wine: ", res._id)
+          }
+        }
+    }
+    )
+
+    return obs
+  }
+
   //
   //CellarItem related 
   //
@@ -63,6 +105,40 @@ export class WineService {
     )
 
     return obs    
+  }
+
+  //
+  //Edit an existing cellar item
+  //
+  updateCellarItem(cellarItem:CellarItem)
+  {
+    let obs = this._backendService.doEditCellarItem(cellarItem)
+
+    obs.subscribe (
+      res => { 
+        console.log("wine.service: editCellarItem > res is ", res) 
+        //find the local copy of the updatedCellarItem and replace it 
+        //if the edit was successful then replace the local version
+        if (!res || res.errors)
+        {
+          console.log("wine.service: updateCellarItem: there was an error updating the cellarItem")
+        }
+        else
+        {
+          let idx = this._currentCellar.value.cellarItems.findIndex( item => item._id = res._id)
+          if (idx != -1)
+          {
+              console.log("updating the local cellar item ")
+              this._currentCellar.value.cellarItems[idx] = res
+          }
+          else{
+            console.log("currentCellar does not contain item ", res._id)
+          }
+        }
+      }
+    )
+
+    return obs
   }
 
   //TODO:  SHOULD CELLAR ITEMS BE DELETED WHEN THE QTY == 0 ?

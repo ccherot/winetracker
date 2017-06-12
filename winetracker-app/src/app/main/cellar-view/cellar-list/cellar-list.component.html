@@ -1,9 +1,13 @@
-<p>
+<!--
+  <p>
   cellar-list works!
 </p>
+-->
 <!-- {{_wineService.currentCellar | async | json }} -->
+<!-- 
 <br>
 {{(_wineService.currentCellar | async ).cellarItems | json }}
+-->
 <div id="listContainer">
   <table>
     <th>Producer</th>
@@ -34,9 +38,9 @@
       <td>{{item.purchaseLocation}}</td>
       <td>{{item.purchaseDate | date:'shortDate'}}</td>
       <td>
-        <button (click)="onClickEdit(cellar)" id="editButton" class="editButtonClass">Edit</button>
-        <button (click)="onClickDelete(cellar)" id="deleteButton" class="deleteButtonClass">Delete</button>
-        <button (click)="onClickShow(cellar)" id="showButton" class="showButtonClass">Show</button>
+        <button (click)="onClickEdit(item)" id="editButton" class="editButtonClass">View / Edit</button>
+        <button (click)="onClickDelete(item)" id="deleteButton" class="deleteButtonClass">Delete</button>
+        <!-- <button (click)="onClickShow(cellar)" id="showButton" class="showButtonClass">Show</button>-->
        </td>
     </tr>
   </table>

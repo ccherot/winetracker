@@ -9,6 +9,7 @@ export class Wine {
     region: string
     appellation: string
     color: string
+    _id:string
 
     constructor ()
     {

@@ -4,7 +4,7 @@ import { User } from './user';
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, Headers } from '@angular/http'
 import 'rxjs'
-import { Observable } from 'rxjs/Observable'
+import { Observable } from 'rxjs/Rx'
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 
 @Injectable()
@@ -35,7 +35,7 @@ export class LoginService {
   {
     let cookieUser = this.getCookieUser(this.userKey) as User
     console.log("getUser called and cookie user is ", cookieUser)
-    if (cookieUser != null && cookieUser != undefined){
+    if (cookieUser && cookieUser != null && cookieUser != undefined){
       this._currentUser.next(cookieUser)
       this._isLoggedIn.next(true)
     }
@@ -57,12 +57,13 @@ export class LoginService {
     this._isLoggedIn.next(false)
     this._cookieService.remove(this.userKey)
     //set the currentUser to an empty user
+    console.log("login.service: logout > this._currentUser is ", this._currentUser)
     this._currentUser.next(new User())
   }
 
   login(userObj) 
   {
-    console.log("service.service: login called ")
+    console.log("login.service: login called ")
     console.log("login.service: login called and _isLoggedIn is ", this._isLoggedIn)
     console.log("login.service: login called and _currentUser is ", this._currentUser)
     
@@ -72,10 +73,17 @@ export class LoginService {
     //subscribe to login observable in the backend service 
     obs.subscribe(
       res => {
-        console.log("login.service: login > res is ", res) 
-        this._currentUser.next(res)
-        this._cookieService.putObject(this.userKey, this._currentUser.value)
-        this._isLoggedIn.next(true)
+        if (!res){
+          console.log("login.service: ERROR: login failed")
+        }
+        else
+        {
+          console.log("login.service: login > res is ", res) 
+          this._currentUser.next(res)
+           console.log("login.service: login > this._currentUser is " + this._currentUser)
+          this._cookieService.putObject(this.userKey, this._currentUser.value)
+          this._isLoggedIn.next(true)
+        }
       }
     )
       
@@ -106,6 +114,9 @@ export class LoginService {
 
   updateUser(editUser)
   {
+    //Delete the passwords in case they are still there.
+    //They might overwrite the password in the db
+    //but they should not be user properties any more 
     delete editUser.password
     delete editUser.passwordConfirm
     let obs = this._backendService.doUpdateUser(editUser)
@@ -120,6 +131,26 @@ export class LoginService {
     )
 
     return obs
+  }
+
+  changePassword(newCredentials:Object)
+  {
+    let obs = this._backendService.doChangePassword(newCredentials)
+
+    obs.subscribe(
+      res => {
+        console.log("login.service: changePassword > res is ", res)
+        if (!res || res.errors) { console.log("login.service: changePassword > error changing password")}
+        else
+        {
+          this._currentUser = res
+          this._cookieService.putObject(this.userKey, this._currentUser.value)
+        }
+      }
+    )
+
+    return obs
+
   }
 
   

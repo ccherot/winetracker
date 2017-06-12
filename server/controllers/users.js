@@ -3,6 +3,7 @@ console.log('users controller');
 var bcrypt = require('bcrypt')
 var mongoose = require('mongoose')
 var User = mongoose.model("User")
+var _ = require("underscore")
 
 module.exports = {
 
@@ -20,9 +21,9 @@ module.exports = {
                 console.log("controller/users.js: create > user successfully created")
                 
                 //strip the password and passwordconfirm off of the object returned
-                delete user.password;
-                delete user.passwordConfirm
-                
+                user = user.toObject()
+                delete user["password"];
+                delete user["passwordConfirm"];                
                 res.json(user)
                 
             }
@@ -44,11 +45,11 @@ module.exports = {
             else{
                 if (!user)
                 {
-                    console.log("controllers: users.js > user is ", user)
+                    console.log("controllers: users.js > user not found")
                     res.json( {errors: {error: "user is null"} } )
                     return 
                 }
-                console.log("controllers: users.js > user.password is ", user.password)
+                console.log("controllers: users.js > login > user is ", user)
                 
                 //if there is a user and a password then check against the DB
                 //compare password sent and the one on the database
@@ -56,22 +57,29 @@ module.exports = {
                 //asynchronous method
                 if (user.password)
                 {
-                    bcrypt.compare(req.body.password, user.password, function (err, result){
+                    bcrypt.compare(req.body.password, user.password, function (err, success){
                         if (err) { 
-                            console.log("controllers: users.js: ERROR: controllers: users.js > ERROR: passwords do not match")
+                            console.log("controllers: users.js: ERROR: controllers: users.js > error attempting to match passwords")
                             res.json(err) 
                         }
-                        else {
-                            console.log("controllers: users.js: login: SUCCESS: " + user.email + " has successfully loged in" )
+                        else if (success){
+                            console.log("controllers: users.js: login > success: ", success)// + user.email + " has successfully loged in" )
                             //strip off the password before sending the user object back
-                            delete user.password;
-                            delete user.passwordConfirm
-                            console.log("controllers: users.js: login: SUCCESS: user is now ", user)
+                            user = user.toObject()
+                            delete user["password"];
+                            delete user["passwordConfirm"];
+                            console.log("controllers: users.js: login > returning user: ", user )
                             res.json(user);    
+                        }
+                        else
+                        {
+                            console.log("controllers/controllers: login > bcypt.compare > passwords do not match")
+                            res.json(false)
                         }
                     })
                 }
                 else {
+                    console.log("cotrollers: users.js > login > user.password is null")
                     res.json(false)
                 }
             }
@@ -130,6 +138,7 @@ module.exports = {
             else{
                 //always remove the password fields before returning the 
                 //user object
+                user = user.toObject()
                 delete user.password
                 delete user.passwordConfirm
                 console.log('controllers/users.js > update > successfully updated user: ', user)
@@ -138,6 +147,90 @@ module.exports = {
         })    
     },
 
+    changePassword: function (req, res){
+        console.log("controllers/users.js > changePassword > req.body is ", req.body)
 
+        //find the user, validate the old password, update the stored, encrypted password
+        User.findById(req.body._id, function (err, user) {
+            if (err) {
+                console.log("controllers/users.js > there was an error retrieivng user ", req.body.id)
+                res.json(err)
+            }
+            else
+            {
+                if (!user)
+                {
+                    console.log("controllers/users.js > user is ", user)
+                    res.json( {errors: {error: "user is null"} } )
+                    return 
+                }
+                
+                console.log("controllers/users.js > user is ", user)
+                if (user.password && req.body.oldPassword)
+                {
+                    //asynchronous method to compare passwords
+                    bcrypt.compare(req.body.oldPassword, user.password, function (err, result){
+                        if (err) { 
+                            console.log("controllers/users.js: changePassword >  bcrypt.compare > ERROR: controllers: users.js > ERROR: passwords do not match")
+                            res.json(err) 
+                        }
+                        else {
+                            console.log("controllers/users.js: changePassword: SUCCESS: oldPassword is correct" )
+                            //set the new password and save - this should causet the User model to encrypt the password 
+                            //before saving it to the database
+                            user.password = req.body.newPassword
+                            //TODO: ENCRYPT PASSWORD BEFORE UPDATING - PRE METHOD DOES NOT SEEM
+                            //TO BE WORKING
+                            //update it
+                            /*
+                            User.update({_id: user._id}, user, function(err) {  ////{new: true}, 
+                                if (err) { 
+                                    console.log("controllers/users.js: changePassword > there was an error updating user: ", err)
+                                    res.json( {errors: {error: err} } )
+                                }
+                                else
+                                {
+                                    console.log("updated password hash is ", user.password)
+                                    //strip off the password before sending the user object back
+                                    user = user.toObject()
+                                    delete user.password;
+                                    delete user.passwordConfirm
+                                    console.log("controllers/users.js: changePassword > SUCCESS: user is now ", user)
+                                    res.json(user);    
+                                }
+                            })
+                            */
+                            
+                            //NOTE: This methode does not work becuase it causes the user validation to trigger
+                            //which fails because the email is already taken even though we are not creating 
+                            //a new user
+                        
+                            user.save(function (err){
+                                if (err) { 
+                                    console.log("controllers/users.js: changePassword > there was an error saving new password for req.body._id ", err)
+                                    res.json( {errors: {error: err} } )
+                                }
+                                else
+                                {
+                                    //strip off the password before sending the user object back
+                                    user = user.toObject()
+                                    delete user.password;
+                                    delete user.passwordConfirm
+                                    console.log("controllers/users.js: changePassword > SUCCESS: user is now ", user)
+                                    res.json(user);    
+                                }
+                            })
+                            
+                        }
+                    })
+                }
+                else {
+                    console.log("controllers/users.js: changePassword > ERROR > oldPassword is" + req.body.oldPassword + " and user.password is ", user.password)
+                    res.json( {errors: {error: "old password does not match current password"} } )
+                }
+
+            }
+        })
+    }
 
 }
